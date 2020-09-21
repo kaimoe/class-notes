@@ -1,0 +1,285 @@
+<!DOCTYPE html><html><head>
+      <title>ITC3121</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+			<link rel="stylesheet" href="../style.css">
+    </head>
+    <body for="html-export">
+      <div class="mume markdown-preview  ">
+      <h1 class="mume-header" id="itc-3121">ITC 3121</h1>
+
+<div class="code-chunk" data-id="code-chunk-id-0" data-cmd="toc"><div class="input-div"><div class="btn-group"><div class="run-btn btn"><span>&#x25B6;&#xFE0E;</span></div><div class="run-all-btn btn">all</div></div><div class="status">running...</div></div><div class="output-div"></div></div><ul>
+<li><a href="#itc-3121">ITC 3121</a>
+<ul>
+<li><a href="#routers">Routers</a>
+<ul>
+<li><a href="#boot-process">Boot Process</a></li>
+<li><a href="#interface-ports">Interface ports</a></li>
+<li><a href="#line-ports">Line ports</a></li>
+<li><a href="#osi-model-and-operation">OSI Model and Operation</a></li>
+</ul>
+</li>
+<li><a href="#routing">Routing</a>
+<ul>
+<li><a href="#tables">Tables</a>
+<ul>
+<li><a href="#routing-tables">Routing tables</a></li>
+<li><a href="#protocols">Protocols</a></li>
+<li><a href="#best-route-elements">Best Route Elements</a></li>
+</ul>
+</li>
+<li><a href="#classlessclassful">Classless/classful</a></li>
+<li><a href="#dynamic">Dynamic</a>
+<ul>
+<li><a href="#distance-vector">Distance-Vector</a>
+<ul>
+<li><a href="#characteristics">Characteristics</a></li>
+<li><a href="#protocols-1">Protocols</a>
+<ul>
+<li><a href="#rip">RIP</a></li>
+<li><a href="#eigrp">EIGRP</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#link-state">Link-State</a>
+<ul>
+<li><a href="#tables-1">Tables:</a></li>
+<li><a href="#comparison">Comparison</a></li>
+<li><a href="#protocols-2">Protocols</a>
+<ul>
+<li><a href="#open-shortest-path-first">Open Shortest Path First</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#vlans">VLANs</a>
+<ul>
+<li><a href="#benefits">Benefits</a></li>
+<li><a href="#types">Types</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 class="mume-header" id="routers">Routers</h2>
+
+<h3 class="mume-header" id="boot-process">Boot Process</h3>
+
+<ol>
+<li>Read bootstrap (ROMmon) from <strong>ROM</strong></li>
+<li>Run POST</li>
+<li>Load IOS from <strong>Flash</strong> (into <strong>RAM</strong>)</li>
+<li>Load startup-config from <strong>NVRAM</strong> (into <strong>RAM</strong>) as running-config</li>
+</ol>
+<h3 class="mume-header" id="interface-ports">Interface ports</h3>
+
+<p>Route traffic between devices (serial, ethernet, atm).<br>
+Formatted as [type][module number(optional)]/[interface number], e.g. Ethernet0/1.</p>
+<h3 class="mume-header" id="line-ports">Line ports</h3>
+
+<p>Allow to connect into and configure Cisco devices (console, auxiliary, and telnet/SSH ports).</p>
+<h3 class="mume-header" id="osi-model-and-operation">OSI Model and Operation</h3>
+
+<p>Routers operate from Layer 3 and down. Forwarding happens at level 3, where the destination IP address is examined and the routing table is consulted. The Layer 3 IP packet is encapsulated into the data portion of a Layer 2 data-link frame for the exit interface.This is then encoded into Layer 1 physical signals to represent bits.</p>
+<h2 class="mume-header" id="routing">Routing</h2>
+
+<h3 class="mume-header" id="tables">Tables</h3>
+
+<h4 class="mume-header" id="routing-tables">Routing tables</h4>
+
+<p>Contain:</p>
+<ul>
+<li>Destination network and subnet mask</li>
+<li>Next hop router to the Destination</li>
+<li>Routing metrics and Administrative Distance</li>
+</ul>
+<h4 class="mume-header" id="protocols">Protocols</h4>
+
+<ul>
+<li>Routed (layer 3) apply logical addresses and route between networks e.g. IP</li>
+<li>Routing build the network, topology, and next hop</li>
+</ul>
+<h4 class="mume-header" id="best-route-elements">Best Route Elements</h4>
+
+<ul>
+<li>Prefix-Length (# of bits identifying network)</li>
+<li>Metric (distance for DV, cost for LS)</li>
+<li>AD (between protocols)</li>
+</ul>
+<h3 class="mume-header" id="classlessclassful">Classless/classful</h3>
+
+<p><strong>Classful</strong> protocols:</p>
+<ul>
+<li>Divide address into Network/Subnet/Host</li>
+<li>Do not send packets containing subnet mask info</li>
+<li>Require more bandwidth</li>
+<li>Regular/periodic updates</li>
+</ul>
+<p><strong>Classless</strong> protocols:</p>
+<ul>
+<li>Divide into Subnet/Host</li>
+<li>Send packets with subnet mask info</li>
+<li>Less bandwidth, hello packets</li>
+<li>Triggered updates</li>
+</ul>
+<h3 class="mume-header" id="dynamic">Dynamic</h3>
+
+<h4 class="mume-header" id="distance-vector">Distance-Vector</h4>
+
+<h5 class="mume-header" id="characteristics">Characteristics</h5>
+
+<ul>
+<li>Periodic updates of the <strong>full routing table</strong>
+<ul>
+<li>Advertise direct networks to neighbors</li>
+<li>Neighbors take these as learned networks and add them to their own knowledge</li>
+<li>Known + learned connections are all sent to own neighbors
+<ul>
+<li>Blind trust to others&apos; information, aka &quot;routing by rumor&quot;</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>Distance</strong> used as metric
+<ul>
+<li>RIP: hopcount, IGRP: bandwidth + delay</li>
+</ul>
+</li>
+<li><strong>Slow convergence</strong>, susceptible to loops
+<ul>
+<li>Side-effect of the periodic update system</li>
+</ul>
+</li>
+<li><strong>Bellman-Ford algorithm</strong> to determine shortest path</li>
+</ul>
+<p>Routing table contains distance (hopcount) and direction (neighbor) to reach destination, <strong>not</strong> actual topology</p>
+<h5 class="mume-header" id="protocols-1">Protocols</h5>
+
+<h6 class="mume-header" id="rip">RIP</h6>
+
+<p>For use on smaller networks.</p>
+<ul>
+<li>30sec routing updates</li>
+<li>Full routing table</li>
+<li>Hopcount distance metric</li>
+<li>IP and IPX</li>
+<li>AD of 120</li>
+<li>15 hops max</li>
+<li>Round-robin load balancing when equal hops
+<ul>
+<li>Bandwidth-agnostic, which can cause congestion</li>
+</ul>
+</li>
+</ul>
+<p><strong>Version 1</strong></p>
+<ul>
+<li>Classful (no VLSM)</li>
+<li>Subnets must be contiguous and under identical masks</li>
+<li>Broadcasts to 255.255.255.255</li>
+</ul>
+<p><strong>Version 2</strong></p>
+<ul>
+<li>Classless (supports VLSM)</li>
+<li>Multicasts updates</li>
+<li>Encrypted auth between routers</li>
+</ul>
+<h6 class="mume-header" id="eigrp">EIGRP</h6>
+
+<ul>
+<li>Classless</li>
+<li>Cisco proprietary</li>
+<li>Reliable Transport Protocol (RTP)</li>
+<li>Keeps a topology table besides the regular routing table, including backup paths to destinations that DUAL (Diffusing Update Algorithm) considers loop-free</li>
+<li>Faster convergence than traditional DV</li>
+<li>Hello packets, not unlike LS</li>
+</ul>
+<h4 class="mume-header" id="link-state">Link-State</h4>
+
+<p>Routers know about their own links by checking for interfaces in the <em>up</em> state, and neighbors &quot;meet&quot; each other by sending Hello packets. Tables constructed with this information are flooded to all neighbors, ending up with all routers having full knowledge of the network topology.</p>
+<h5 class="mume-header" id="tables-1">Tables:</h5>
+
+<ul>
+<li><strong>Neighbor</strong> table: list of neighbors and relevant interface. Formed by Hello packets</li>
+<li><strong>Topology/link-state</strong> table: map of all links in an area, and link status</li>
+<li><strong>Shortest-path/routing</strong> table: best routes to each destination
+<ul>
+<li>Any changes are directly advertised to routers in the area</li>
+</ul>
+</li>
+</ul>
+<p><strong>Dijkstra formula</strong> calculates shortest path using <strong>cost</strong> metric</p>
+<h5 class="mume-header" id="comparison">Comparison</h5>
+
+<ul>
+<li>DV route by rumor, LS send updates advertising the state of their direct networks
+<ul>
+<li>These LS updates are less bandwidth-intensive</li>
+<li>But, the three LS tables require more system resources</li>
+</ul>
+</li>
+<li>LS feature faster convergence and no routing loops</li>
+<li>DV only consider hops, LS thinks speed</li>
+<li>LS have hierarchical design by using <em>areas</em>, allowing better summarization and isolating issues within these areas</li>
+</ul>
+<h5 class="mume-header" id="protocols-2">Protocols</h5>
+
+<h6 class="mume-header" id="open-shortest-path-first">Open Shortest Path First</h6>
+
+<p>Designed to scale efficiently with larger networks.</p>
+<ul>
+<li>Hierarchical design using areas</li>
+<li>Forms neighbor relationships with adjacent routers in area</li>
+<li>Traffic multicast to 224.0.0.5 or .6</li>
+<li>Classless (supports VLSM)</li>
+<li>Only IP routing</li>
+<li>Cost metric, based on bandwidth</li>
+</ul>
+<p>Unique router ID determined either by manual specification, highest address on a loopback interface, or highest address on any physical interface.</p>
+<p>Neighbor table constructed from Hello packets, which include per entry:</p>
+<ul>
+<li>Neighbor&apos;s Router ID</li>
+<li>Current state</li>
+<li>Interface</li>
+<li>IP address</li>
+</ul>
+<p>Routers may elect a Designated Router, which they will send link-state advertisements to, and the DR will hold the responsibility of multicasting the advertisement to the other nodes in the network.</p>
+<h2 class="mume-header" id="vlans">VLANs</h2>
+
+<h3 class="mume-header" id="benefits">Benefits</h3>
+
+<ul>
+<li><strong>Security</strong>, with entirely separated parts of the network</li>
+<li><strong>Cost reduction</strong>, since it reduces the need for extra hardware</li>
+<li><strong>Higher performance</strong> and broadcast storm mitigation by dividing Layer 2 networks into smaller logical groups</li>
+<li><strong>Simpler management</strong>, from aggregating users and network devices</li>
+</ul>
+<p>VLANs are designated IDs, to denote separate networks. 1-1005 is the normal range, 1006-4904 extended</p>
+<h3 class="mume-header" id="types">Types</h3>
+
+<ul>
+<li><strong>Data VLAN</strong>, carrying user-generated traffic</li>
+<li><strong>Default VLAN</strong></li>
+<li><strong>Native VLAN</strong>, a trunk port that supports traffic from many VLANS and not from a VLAN</li>
+<li><strong>Management VLAN</strong>, configured to access management of a switch</li>
+<li><strong>Voice VLANs</strong>, for VoIP</li>
+</ul>
+
+      </div>
+      
+      
+    
+    
+    
+    
+    
+    
+    
+    
+  
