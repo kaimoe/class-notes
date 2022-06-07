@@ -366,7 +366,8 @@ a code {
   color: white;
 }
 img {
-  max-width: 100%;
+  max-width: 1000px;
+  max-height: 1000px;
 }
 blockquote {
   margin: 1.5em 0;
